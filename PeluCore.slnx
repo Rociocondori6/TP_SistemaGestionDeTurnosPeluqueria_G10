@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PeluCli/PeluCli.csproj" />
+  <Project Path="PeluCore/PeluCore.csproj" />
+</Solution>
