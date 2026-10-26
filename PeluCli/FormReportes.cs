@@ -28,32 +28,59 @@ namespace PeluCli
         private void btnGenerar_Click(object sender, EventArgs e)
         {
             int seleccion = cmbReportes.SelectedIndex;
-           
+
             // Aquí puedes agregar la lógica para generar el reporte seleccionado
             switch (seleccion)
             {
                 case 0:
-                    DateTime fechaSeleccionada = dtpFecha.Value;
+
+                    DateTime desde0 = dtpDesde.Value.Date;
+                    DateTime hasta0 = dtpHasta.Value.Date;
+
+
                     ReporteRepository reporteRepo = new ReporteRepository();
-                    var listaTurnos = reporteRepo.ObtenerTurnosDiarios(fechaSeleccionada);
+                    var listaTurnos = reporteRepo.ObtenerTurnosPorRangos(desde0, hasta0);
 
                     dataGridView1.DataSource = listaTurnos;
                     if (listaTurnos.Count == 0)
                     {
-                        MessageBox.Show("No hay turnos para la fecha seleccionada.");
+                        MessageBox.Show("No se encontraron turnos en el rango seleccionado.");
                     }
                     break;
+
                 case 1:
-                    MessageBox.Show("2. Cargando Rendiemiento por Estilista...");   
-                    // Lógica para generar el reporte de rendimiento por estilista
+
+                    DateTime desdeEstilista = dtpDesde.Value.Date;
+                    DateTime hastaEstilista = dtpHasta.Value.Date;
+
+                    ReporteRepository repoEstilista = new ReporteRepository();
+                    var listaRendimiento = repoEstilista.ObtenerTurnosPorRangos(desdeEstilista, hastaEstilista);
+
+                    dataGridView1.DataSource = listaRendimiento;
+                    if (listaRendimiento.Count == 0)
+                    {
+                        MessageBox.Show("No se encontraron turnos en el rango seleccionado.");
+                    }
                     break;
+
                 case 2:
-                    MessageBox.Show("3. Cargando Servicios Más Solicitados...");
-                    // Lógica para generar el reporte de servicios más solicitados
+
+                    DateTime desdeServicio = dtpDesde.Value.Date;
+                    DateTime hastaServicio  = dtpHasta.Value.Date;
+
+
+                    ReporteRepository repoServicio = new ReporteRepository();
+                    var servicios = repoServicio.ObtenerServiciosMasDemandados(desdeServicio, hastaServicio);
+                    dataGridView1.DataSource = servicios;
+                    if (servicios.Count == 0)
+                    {
+                        MessageBox.Show("No se encontraron servicios en el rango seleccionado.");
+                    }
                     break;
+
                 case 3:
-                    MessageBox.Show("4. Cargando Historial y Fidelización de Clientes...");
-                    // Lógica para generar el reporte de historial y fidelización de clientes
+                    
+                    // logica
                     break;
                 case 4:
                     MessageBox.Show("5. Cargando Clientes Frecuentes...");
