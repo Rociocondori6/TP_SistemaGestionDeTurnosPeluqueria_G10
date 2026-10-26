@@ -17,7 +17,8 @@ namespace PeluCli
 
         private void btnTurnos_Click(object sender, EventArgs e)
         {
-
+            FormTurno formTurno = new FormTurno();
+            formTurno.Show();
         }
 
         private void btnClientes_Click(object sender, EventArgs e)
