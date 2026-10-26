@@ -29,7 +29,8 @@ namespace PeluCli
 
         private void btnPromocion_Click(object sender, EventArgs e)
         {
-
+            FormPromociones formPromocion = new FormPromociones();
+            formPromocion.Show();
         }
 
         private void btnReportes_Click(object sender, EventArgs e)

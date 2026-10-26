@@ -49,7 +49,7 @@
             // 
             cmbCliente.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCliente.FormattingEnabled = true;
-            cmbCliente.Location = new Point(251, 98);
+            cmbCliente.Location = new Point(143, 89);
             cmbCliente.Name = "cmbCliente";
             cmbCliente.Size = new Size(121, 23);
             cmbCliente.TabIndex = 0;
@@ -57,28 +57,28 @@
             // lblCliente
             // 
             lblCliente.AutoSize = true;
-            lblCliente.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCliente.Location = new Point(141, 101);
+            lblCliente.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblCliente.Location = new Point(143, 71);
             lblCliente.Name = "lblCliente";
-            lblCliente.Size = new Size(49, 15);
+            lblCliente.Size = new Size(44, 15);
             lblCliente.TabIndex = 1;
-            lblCliente.Text = "Cliente:";
+            lblCliente.Text = "Cliente";
             // 
             // lblEstilista
             // 
             lblEstilista.AutoSize = true;
-            lblEstilista.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblEstilista.Location = new Point(141, 137);
+            lblEstilista.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblEstilista.Location = new Point(332, 71);
             lblEstilista.Name = "lblEstilista";
-            lblEstilista.Size = new Size(51, 15);
+            lblEstilista.Size = new Size(46, 15);
             lblEstilista.TabIndex = 2;
-            lblEstilista.Text = "Estilista:";
+            lblEstilista.Text = "Estilista";
             // 
             // cmbEstilista
             // 
             cmbEstilista.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstilista.FormattingEnabled = true;
-            cmbEstilista.Location = new Point(251, 129);
+            cmbEstilista.Location = new Point(332, 89);
             cmbEstilista.Name = "cmbEstilista";
             cmbEstilista.Size = new Size(121, 23);
             cmbEstilista.TabIndex = 3;
@@ -87,7 +87,7 @@
             // 
             lblTurnoTitulo.AutoSize = true;
             lblTurnoTitulo.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTurnoTitulo.Location = new Point(295, 35);
+            lblTurnoTitulo.Location = new Point(141, 33);
             lblTurnoTitulo.Name = "lblTurnoTitulo";
             lblTurnoTitulo.Size = new Size(180, 25);
             lblTurnoTitulo.TabIndex = 4;
@@ -96,18 +96,18 @@
             // lblServicio
             // 
             lblServicio.AutoSize = true;
-            lblServicio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblServicio.Location = new Point(141, 176);
+            lblServicio.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblServicio.Location = new Point(143, 124);
             lblServicio.Name = "lblServicio";
-            lblServicio.Size = new Size(55, 15);
+            lblServicio.Size = new Size(48, 15);
             lblServicio.TabIndex = 5;
-            lblServicio.Text = "Servicio:";
+            lblServicio.Text = "Servicio";
             // 
             // cmbServicio
             // 
             cmbServicio.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbServicio.FormattingEnabled = true;
-            cmbServicio.Location = new Point(251, 168);
+            cmbServicio.Location = new Point(143, 142);
             cmbServicio.Name = "cmbServicio";
             cmbServicio.Size = new Size(121, 23);
             cmbServicio.TabIndex = 6;
@@ -115,18 +115,18 @@
             // lblFechaHora
             // 
             lblFechaHora.AutoSize = true;
-            lblFechaHora.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFechaHora.Location = new Point(141, 207);
+            lblFechaHora.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFechaHora.Location = new Point(332, 124);
             lblFechaHora.Name = "lblFechaHora";
-            lblFechaHora.Size = new Size(81, 15);
+            lblFechaHora.Size = new Size(76, 15);
             lblFechaHora.TabIndex = 7;
-            lblFechaHora.Text = "Fecha y Hora:";
+            lblFechaHora.Text = "Fecha y Hora";
             // 
             // dtpFechaHora
             // 
             dtpFechaHora.CustomFormat = "dd/MM/yyyy HH:mm";
             dtpFechaHora.Format = DateTimePickerFormat.Custom;
-            dtpFechaHora.Location = new Point(251, 201);
+            dtpFechaHora.Location = new Point(332, 142);
             dtpFechaHora.Name = "dtpFechaHora";
             dtpFechaHora.Size = new Size(200, 23);
             dtpFechaHora.TabIndex = 8;
@@ -134,18 +134,18 @@
             // lblEstado
             // 
             lblEstado.AutoSize = true;
-            lblEstado.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblEstado.Location = new Point(141, 236);
+            lblEstado.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblEstado.Location = new Point(141, 178);
             lblEstado.Name = "lblEstado";
-            lblEstado.Size = new Size(46, 15);
+            lblEstado.Size = new Size(42, 15);
             lblEstado.TabIndex = 9;
-            lblEstado.Text = "Estado:";
+            lblEstado.Text = "Estado";
             // 
             // cmbEstado
             // 
             cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.FormattingEnabled = true;
-            cmbEstado.Location = new Point(251, 233);
+            cmbEstado.Location = new Point(143, 196);
             cmbEstado.Name = "cmbEstado";
             cmbEstado.Size = new Size(121, 23);
             cmbEstado.TabIndex = 10;
@@ -154,7 +154,7 @@
             // 
             btnGuardar.BackColor = Color.SeaGreen;
             btnGuardar.ForeColor = SystemColors.ButtonFace;
-            btnGuardar.Location = new Point(141, 271);
+            btnGuardar.Location = new Point(141, 225);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(157, 39);
             btnGuardar.TabIndex = 11;
@@ -166,7 +166,7 @@
             // 
             btnLimpiar.BackColor = SystemColors.ControlDark;
             btnLimpiar.ForeColor = SystemColors.ButtonFace;
-            btnLimpiar.Location = new Point(332, 271);
+            btnLimpiar.Location = new Point(332, 225);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(157, 39);
             btnLimpiar.TabIndex = 12;
@@ -176,9 +176,9 @@
             // dgvTurnos
             // 
             dgvTurnos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTurnos.Location = new Point(143, 319);
+            dgvTurnos.Location = new Point(143, 270);
             dgvTurnos.Name = "dgvTurnos";
-            dgvTurnos.Size = new Size(535, 119);
+            dgvTurnos.Size = new Size(535, 168);
             dgvTurnos.TabIndex = 13;
             // 
             // FormTurno
