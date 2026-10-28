@@ -19,12 +19,15 @@ namespace PeluCore.Repositories
                 .Include(t => t.Cliente)
                 .Include(t => t.Servicio)
                 .Include(t => t.Estilista)
+                
                 .Select(t => new
                 {
                     Fecha = t.FechaHora.ToString("dd/MM/yyyy HH:mm"),
                     ClienteNombre = t.Cliente.Nombre + " " + t.Cliente.Apellido,
                     ServicioNombre = t.Servicio.Nombre,
-                    EstilistaNombre = t.Estilista.Nombre + " " + t.Estilista.Apellido
+                    EstilistaNombre = t.Estilista.Nombre + " " + t.Estilista.Apellido,
+                    
+
                 })
                 .Cast<object>()   
                 .ToList();

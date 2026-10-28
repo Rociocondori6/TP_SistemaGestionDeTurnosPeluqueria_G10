@@ -53,6 +53,7 @@
             cmbCliente.Name = "cmbCliente";
             cmbCliente.Size = new Size(121, 23);
             cmbCliente.TabIndex = 0;
+            cmbCliente.SelectedIndexChanged += cmbCliente_SelectedIndexChanged;
             // 
             // lblCliente
             // 

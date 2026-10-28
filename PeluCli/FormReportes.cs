@@ -18,76 +18,54 @@ namespace PeluCli
 
         private void FormReportes_Load(object sender, EventArgs e)
         {
-            cmbReportes.Items.Add("1. Turnos Diarios (Agenda)");
-            cmbReportes.Items.Add("2. Rendiemiento por Estilista");
-            cmbReportes.Items.Add("3. Servicios Más Solicitados");
-            cmbReportes.Items.Add("4. Historial y Fidelización de Clientes");
-            cmbReportes.Items.Add("5. Clientes Frecuentes (Benificios)");
+            cmbReportes.Items.Add("Turnos Diarios (Agenda)");
+            cmbReportes.Items.Add("Rendimiento por Estilista");
+            cmbReportes.Items.Add("Servicios Más Solicitados");
+            cmbReportes.Items.Add("Historial y Fidelización de Clientes");
+            cmbReportes.Items.Add("Clientes Frecuentes (Beneficios)");
         }
 
         private void btnGenerar_Click(object sender, EventArgs e)
         {
             int seleccion = cmbReportes.SelectedIndex;
 
+            DateTime fechaDesde = dtpDesde.Value.Date;
+            DateTime fechaHasta = dtpHasta.Value.Date;
             // Aquí puedes agregar la lógica para generar el reporte seleccionado
             switch (seleccion)
             {
                 case 0:
 
-                    DateTime desde0 = dtpDesde.Value.Date;
-                    DateTime hasta0 = dtpHasta.Value.Date;
-
-
-                    ReporteRepository reporteRepo = new ReporteRepository();
-                    var listaTurnos = reporteRepo.ObtenerTurnosPorRangos(desde0, hasta0);
-
-                    dataGridView1.DataSource = listaTurnos;
-                    if (listaTurnos.Count == 0)
-                    {
-                        MessageBox.Show("No se encontraron turnos en el rango seleccionado.");
-                    }
+                    dataGridView1.DataSource = new ReporteRepository().ObtenerTurnosPorFecha(fechaDesde, fechaHasta);
                     break;
 
                 case 1:
 
-                    DateTime desdeEstilista = dtpDesde.Value.Date;
-                    DateTime hastaEstilista = dtpHasta.Value.Date;
-
-                    ReporteRepository repoEstilista = new ReporteRepository();
-                    var listaRendimiento = repoEstilista.ObtenerTurnosPorRangos(desdeEstilista, hastaEstilista);
-
-                    dataGridView1.DataSource = listaRendimiento;
-                    if (listaRendimiento.Count == 0)
-                    {
-                        MessageBox.Show("No se encontraron turnos en el rango seleccionado.");
-                    }
+                    dataGridView1.DataSource = new ReporteRepository().ObtenerRendimientoPorEstilista(fechaDesde, fechaHasta);
                     break;
 
                 case 2:
 
-                    DateTime desdeServicio = dtpDesde.Value.Date;
-                    DateTime hastaServicio  = dtpHasta.Value.Date;
-
-
-                    ReporteRepository repoServicio = new ReporteRepository();
-                    var servicios = repoServicio.ObtenerServiciosMasDemandados(desdeServicio, hastaServicio);
-                    dataGridView1.DataSource = servicios;
-                    if (servicios.Count == 0)
-                    {
-                        MessageBox.Show("No se encontraron servicios en el rango seleccionado.");
-                    }
+                    dataGridView1.DataSource = new ReporteRepository().ObtenerServiciosMasDemandados(fechaDesde, fechaHasta);
                     break;
 
                 case 3:
                     
-                    // logica
+                    dataGridView1.DataSource = new ReporteRepository().ObtenerHistorialClientes(fechaDesde, fechaHasta);
                     break;
                 case 4:
-                    MessageBox.Show("5. Cargando Clientes Frecuentes...");
-                    // Lógica para generar el reporte de clientes frecuentes
+                    
+                    dataGridView1.DataSource = new ReporteRepository().ObtenerClientesFrecuentes(5);
+                    var listaFrecuentes = new ReporteRepository().ObtenerClientesFrecuentes(5);
+                    if (listaFrecuentes.Count == 0)
+                    {
+                        MessageBox.Show("Todavia no hay clientes que alcancen los 5 turnos registrados.", "Sin Resultados" +
+                            "");
+                    }
+                    dataGridView1.DataSource = listaFrecuentes;
                     break;
                 default:
-                    MessageBox.Show("Reporte no reconocido.");
+                    MessageBox.Show("Por favor, seleccione un reporte de la lista.");
                     break;
             }
         }

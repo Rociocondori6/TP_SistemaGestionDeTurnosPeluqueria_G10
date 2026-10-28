@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using PeluCore.Data;
+using PeluCore.Models;
 
 
 namespace PeluCore.Repositories
@@ -17,8 +18,9 @@ namespace PeluCore.Repositories
         }
 
         // 1. reporte de turnos diarios (agenda)
-        public List<object> ObtenerTurnosPorRangos(DateTime fechaDesde, DateTime fechaHasta)
+        public List<object> ObtenerTurnosPorFecha(DateTime fechaDesde, DateTime fechaHasta)
         {
+            
             return _context.Turnos
                 .Include(t => t.Cliente)
                 .Include(t => t.Servicio)
@@ -26,14 +28,14 @@ namespace PeluCore.Repositories
                 .Where(t => t.FechaHora.Date >= fechaDesde.Date && t.FechaHora.Date <= fechaHasta.Date)
                 .Select(t => new
                 {
-                    Fecha = t.FechaHora.ToShortDateString(),
-                    Hora = t.FechaHora.ToShortTimeString(),
+                    t.Id,
+                    Fecha = t.FechaHora.ToString("dd/MM/yyyy HH:mm"),
                     ClienteNombre = t.Cliente.Nombre + " " + t.Cliente.Apellido,
                     ServicioNombre = t.Servicio.Nombre,
-                    EstilistaNombre = t.Estilista.Nombre + " " + t.Estilista.Apellido
-                })
-                .Cast<object>()
-                .ToList();
+                    EstilistaNombre = t.Estilista.Nombre + " " + t.Estilista.Apellido,
+                    t.Estado
+                }).Cast<object>().ToList();
+
         }
 
         // 2. reporte de rendimiento por estilista
@@ -46,8 +48,9 @@ namespace PeluCore.Repositories
                 .Select(g => new
                 {
                     EstilistaNombre = g.Key.Nombre + " " + g.Key.Apellido,
-                    CantidadTurnos = g.Count()
+                    CantidadTurnos = g.Count(),
                 })
+                .OrderByDescending(x => x.CantidadTurnos)
                 .Cast<object>()
                 .ToList();
         }
@@ -58,13 +61,52 @@ namespace PeluCore.Repositories
             return _context.Turnos
                 .Include(t => t.Servicio)
                 .Where(t => t.FechaHora.Date >= fechaDesde.Date && t.FechaHora.Date <= fechaHasta.Date)
-                .GroupBy(t => new { t.Servicio.Id, t.Servicio.Nombre })
+                .GroupBy(t => t.Servicio.Nombre)
                 .Select(g => new
                 {
-                    ServicioNombre = g.Key.Nombre,
-                    CantidadTurnos = g.Count()
+                    ServicioNombre = g.Key,
+                    VecesSolicitado = g.Count(),
                 })
-                .OrderByDescending(x => x.CantidadTurnos)
+                .OrderByDescending(x => x.VecesSolicitado)
+                .Cast<object>()
+                .ToList();
+        }
+
+        // 4. reporte de historial de clientes
+
+        public List<object> ObtenerHistorialClientes(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _context.Turnos
+                .Include(t => t.Cliente)
+                .Where(t => t.FechaHora.Date >= fechaDesde.Date && t.FechaHora.Date <= fechaHasta.Date)
+                .GroupBy(t => new { t.Cliente.Id, t.Cliente.Nombre, t.Cliente.Apellido })
+                .Select(g => new
+                {
+                    ClienteNombre = g.Key.Nombre + " " + g.Key.Apellido,
+                    TotalVisitas = g.Count(),
+                    UltimoVisita = g.Max(t => t.FechaHora).ToString("dd/MM/yyyy HH:mm"),
+                    EstadoFidelidad = g.Count() >= 5 ? "Califica para beneficios" : "Cliente Ocasional"
+                })
+                .OrderByDescending(x => x.TotalVisitas)
+                .Cast<object>()
+                .ToList();
+
+        }
+
+        // 5. reporte de clientes frecuentes
+        public List<object> ObtenerClientesFrecuentes(int umbral = 5)
+        {
+            return _context.Turnos
+                .Include(t => t.Cliente)
+                .GroupBy(t => t.Cliente)
+                .Select(g => new
+                {
+                    Cliente = g.Key.Nombre + " " + g.Key.Apellido,
+                    TotalTurnos = g.Count(),
+                    Beneficio = "Apto para descuento"
+                })
+                .Where(x => x.TotalTurnos >= umbral)
+                .OrderByDescending(x => x.TotalTurnos)
                 .Cast<object>()
                 .ToList();
         }
