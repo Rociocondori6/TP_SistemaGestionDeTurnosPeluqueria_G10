@@ -13,10 +13,12 @@ namespace PeluCli
     public partial class FormPromociones : Form
     {
         // guardamos el id si el usuario selecciona un fila para editar o eliminar
+        private readonly IGenericRepository<Promocion> _promocionRepository;
         private int? _promocionIdSeleccionada = null;
-        public FormPromociones()
+        public FormPromociones(IGenericRepository<Promocion> promocionRepository)
         {
             InitializeComponent();
+            _promocionRepository = promocionRepository;
         }
 
         private void FormPromociones_Load(object sender, EventArgs e)
@@ -27,8 +29,7 @@ namespace PeluCli
 
         private void CargarGrillaPromociones()
         {
-            GenericRepository<Promocion> repo = new GenericRepository<Promocion>();
-            dgvPromociones.DataSource = repo.ObtenerTodos()
+            dgvPromociones.DataSource = _promocionRepository.ObtenerTodos()
                 .Select(p => new
                 {
                     p.Id,
@@ -81,11 +82,10 @@ namespace PeluCli
                     return;
                 }
 
-                GenericRepository<Promocion> repo = new GenericRepository<Promocion>();
                 if (_promocionIdSeleccionada.HasValue)
                 {
                     // Modificar promoción existente
-                    Promocion promocion = repo.ObtenerPorId(_promocionIdSeleccionada.Value);
+                    Promocion promocion = _promocionRepository.ObtenerPorId(_promocionIdSeleccionada.Value);
                     if (promocion != null)
                     {
                         promocion.Codigo = codigo;
@@ -94,7 +94,7 @@ namespace PeluCli
                         promocion.FechaInicio = dtpFechaInicio.Value;
                         promocion.FechaFin = dtpFechaFin.Value;
                         promocion.Activa = chkActiva.Checked;
-                        repo.Modificar(promocion);
+                        _promocionRepository.Modificar(promocion);
                         MessageBox.Show("¡Promoción modificada correctamente!");
                     }
                 }
@@ -110,7 +110,7 @@ namespace PeluCli
                         FechaFin = dtpFechaFin.Value,
                         Activa = chkActiva.Checked
                     };
-                    repo.Agregar(nuevaPromocion);
+                    _promocionRepository.Agregar(nuevaPromocion);
                     MessageBox.Show("¡Promoción guardada correctamente!");
                 }
                 CargarGrillaPromociones();
@@ -131,8 +131,7 @@ namespace PeluCli
                 return;
             }
 
-            GenericRepository<Promocion> repo = new GenericRepository<Promocion>();
-            var promocionEncontrada = repo.ObtenerTodos().FirstOrDefault(p => p.Codigo == codigoBuscado);
+            var promocionEncontrada = _promocionRepository.ObtenerTodos().FirstOrDefault(p => p.Codigo == codigoBuscado);
             if (promocionEncontrada == null)
             {
                 MessageBox.Show("No se encontró la promoción seleccionada.");
@@ -141,7 +140,7 @@ namespace PeluCli
             
             if (respuesta == DialogResult.Yes)
             {
-                repo.Eliminar(promocionEncontrada.Id);
+                _promocionRepository.Eliminar(promocionEncontrada.Id);
                 MessageBox.Show("¡Promoción eliminada correctamente!");
                 CargarGrillaPromociones();
                 LimpiarCampos();

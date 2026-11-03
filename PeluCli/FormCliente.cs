@@ -7,10 +7,12 @@ namespace PeluCli
 {
     public partial class FormCliente : Form
     {
+        private readonly IGenericRepository<Cliente> _clienteRepository;
         private int idSeleccionado = 0;
-        public FormCliente()
+        public FormCliente(IGenericRepository<Cliente> clienteRepository)
         {
             InitializeComponent();
+            _clienteRepository = clienteRepository;
         }
 
         private void FormCliente_Load(object sender, EventArgs e)
@@ -22,8 +24,7 @@ namespace PeluCli
         {
             try
             {
-                GenericRepository<Cliente> repo = new GenericRepository<Cliente>();
-                dataGridView1.DataSource = repo.ObtenerTodos();
+                dataGridView1.DataSource = _clienteRepository.ObtenerTodos();
                 idSeleccionado = 0;
             }
             catch (Exception ex)
@@ -36,7 +37,6 @@ namespace PeluCli
         {
             try
             {
-                GenericRepository<Cliente> repo = new GenericRepository<Cliente>();
                 Cliente cliente = new Cliente
                 {
                     Nombre = txtNombre.Text,
@@ -45,7 +45,7 @@ namespace PeluCli
                     Telefono = txtTelefono.Text,
                     Email = txtEmail.Text
                 };
-                repo.Agregar(cliente);
+                _clienteRepository.Agregar(cliente);
                 MessageBox.Show("!Cliente guardado correctamente!");
                 CargarGrilla();
                 LimpiarCampos();
@@ -66,7 +66,6 @@ namespace PeluCli
             }
             try
             {
-                GenericRepository<Cliente> repo = new GenericRepository<Cliente>();
                 Cliente cliente = new Cliente()
                 {
                     Id = idSeleccionado,
@@ -76,7 +75,7 @@ namespace PeluCli
                     Telefono = txtTelefono.Text,
                     Email = txtEmail.Text
                 };
-                repo.Modificar(cliente);
+                _clienteRepository.Modificar(cliente);
                 MessageBox.Show("¡Cliente modificado correctamente!");
                 CargarGrilla();
                 LimpiarCampos();
@@ -96,8 +95,7 @@ namespace PeluCli
             }
             try
             {
-                GenericRepository<Cliente> repo = new GenericRepository<Cliente>();
-                repo.Eliminar(idSeleccionado);
+                _clienteRepository.Eliminar(idSeleccionado);
                 MessageBox.Show("¡Cliente eliminado correctamente!");
                 CargarGrilla();
                 LimpiarCampos();

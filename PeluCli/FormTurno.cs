@@ -15,9 +15,19 @@ namespace PeluCli
 {
     public partial class FormTurno : Form
     {
-        public FormTurno()
+        private readonly TurnoRepository _turnoRepository;
+        private readonly IGenericRepository<Cliente> _clienteRepository;
+        private readonly IGenericRepository<Estilista> _estilistaRepository;
+        private readonly IGenericRepository<Servicio> _servicioRepository;
+        private readonly IGenericRepository<Turno> _turnoGenericRepository;
+        public FormTurno(TurnoRepository turnoRepository, IGenericRepository<Cliente> clienteRepository, IGenericRepository<Estilista> estilistaRepository, IGenericRepository<Servicio> servicioRepository, IGenericRepository<Turno> turnoGenericRepository)
         {
             InitializeComponent();
+            _turnoRepository = turnoRepository;
+            _clienteRepository = clienteRepository;
+            _estilistaRepository = estilistaRepository;
+            _servicioRepository = servicioRepository;
+            _turnoGenericRepository = turnoGenericRepository;
         }
 
         private void FormTurno_Load(object sender, EventArgs e)
@@ -74,8 +84,7 @@ namespace PeluCli
         private void CargarCombos()
         {
             // cargar clientes 
-            GenericRepository<Cliente> clienteRepo = new GenericRepository<Cliente>();
-            cmbCliente.DataSource = clienteRepo.ObtenerTodos()
+            cmbCliente.DataSource = _clienteRepository.ObtenerTodos()
                 .Select(c => new
                 {
                     c.Id,
@@ -86,8 +95,7 @@ namespace PeluCli
             cmbCliente.ValueMember = "Id";
 
             // cargar estilistas
-            GenericRepository<Estilista> estilistaRepo = new GenericRepository<Estilista>();
-            cmbEstilista.DataSource = estilistaRepo.ObtenerTodos()
+            cmbEstilista.DataSource = _estilistaRepository.ObtenerTodos()
                 .Select(e => new
                 {
                     e.Id,
@@ -98,8 +106,7 @@ namespace PeluCli
             cmbEstilista.ValueMember = "Id";
 
             // cargar servicios
-            GenericRepository<Servicio> servicioRepo = new GenericRepository<Servicio>();
-            cmbServicio.DataSource = servicioRepo.ObtenerTodos();
+            cmbServicio.DataSource = _servicioRepository.ObtenerTodos();
             cmbServicio.DisplayMember = "Nombre";
             cmbServicio.ValueMember = "Id";
 
@@ -113,8 +120,7 @@ namespace PeluCli
 
         private void CargarGrillaTurnos()
         {
-            TurnoRepository turnoRepo = new TurnoRepository();
-            dgvTurnos.DataSource = turnoRepo.ObtenerTurnosParaGrilla();
+            dgvTurnos.DataSource = _turnoRepository.ObtenerTurnosParaGrilla();
 
         }
 
@@ -127,7 +133,6 @@ namespace PeluCli
                     MessageBox.Show("Por favor, seleccione un cliente, un estilista y un servicio.");
                     return;
                 }
-                TurnoRepository turnoRepo = new TurnoRepository();
                 Turno turno = new Turno
                 {
                     FechaHora = dtpFechaHora.Value,
@@ -137,8 +142,7 @@ namespace PeluCli
                     Estado = cmbEstado.SelectedItem.ToString()
                 };
 
-                GenericRepository<Turno> turnoRepoGeneric = new GenericRepository<Turno>();
-                turnoRepoGeneric.Agregar(turno);
+                _turnoGenericRepository.Agregar(turno);
                 MessageBox.Show("¡Turno guardado correctamente!");
                 CargarGrillaTurnos();
                 LimpiarCampos();
@@ -162,8 +166,7 @@ namespace PeluCli
         {
             if(cmbCliente.SelectedValue != null && int.TryParse(cmbCliente.SelectedValue.ToString(), out int clienteId))
             {
-               GenericRepository<Turno> turnoRepo = new GenericRepository<Turno>();
-                int turnosAcumulados = turnoRepo.ObtenerTodos().Count(t => t.ClienteId == clienteId);
+               int turnosAcumulados = _turnoGenericRepository.ObtenerTodos().Count(t => t.ClienteId == clienteId);
                if (turnosAcumulados >= 5)
                 {
                     MessageBox.Show("Este cliente ha acumulado 5 o más turnos. Puede aplicar un descuento especial.");

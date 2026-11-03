@@ -10,10 +10,12 @@ using PeluCore.Repositories;
 namespace PeluCli
 {
     public partial class FormReportes : Form
-    {
-        public FormReportes()
+    {   
+        private readonly ReporteRepository _reporteRepository;
+        public FormReportes(ReporteRepository reporteRepository)
         {
             InitializeComponent();
+            _reporteRepository = reporteRepository;
         }
 
         private void FormReportes_Load(object sender, EventArgs e)
@@ -36,27 +38,26 @@ namespace PeluCli
             {
                 case 0:
 
-                    dataGridView1.DataSource = new ReporteRepository().ObtenerTurnosPorFecha(fechaDesde, fechaHasta);
+                    dataGridView1.DataSource = _reporteRepository.ObtenerTurnosPorFecha(fechaDesde, fechaHasta);
                     break;
 
                 case 1:
 
-                    dataGridView1.DataSource = new ReporteRepository().ObtenerRendimientoPorEstilista(fechaDesde, fechaHasta);
+                    dataGridView1.DataSource = _reporteRepository.ObtenerRendimientoPorEstilista(fechaDesde, fechaHasta);
                     break;
 
                 case 2:
 
-                    dataGridView1.DataSource = new ReporteRepository().ObtenerServiciosMasDemandados(fechaDesde, fechaHasta);
+                    dataGridView1.DataSource = _reporteRepository.ObtenerServiciosMasDemandados(fechaDesde, fechaHasta);
                     break;
 
                 case 3:
                     
-                    dataGridView1.DataSource = new ReporteRepository().ObtenerHistorialClientes(fechaDesde, fechaHasta);
+                    dataGridView1.DataSource = _reporteRepository.ObtenerHistorialClientes(fechaDesde, fechaHasta);
                     break;
                 case 4:
                     
-                    dataGridView1.DataSource = new ReporteRepository().ObtenerClientesFrecuentes(5);
-                    var listaFrecuentes = new ReporteRepository().ObtenerClientesFrecuentes(5);
+                    var listaFrecuentes = _reporteRepository.ObtenerClientesFrecuentes(5);
                     if (listaFrecuentes.Count == 0)
                     {
                         MessageBox.Show("Todavia no hay clientes que alcancen los 5 turnos registrados.", "Sin Resultados" +
